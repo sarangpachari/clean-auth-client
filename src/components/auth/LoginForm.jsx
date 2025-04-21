@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { IoEyeOffOutline } from "react-icons/io5";
 import { IoEye } from "react-icons/io5";
 import { GoArrowRight } from "react-icons/go";
-import { hover, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { loadingContext } from "../../stores/AuthContext";
 
 const LoginForm = () => {
@@ -16,16 +16,22 @@ const LoginForm = () => {
     setTimeout(() => setLoading(false), 2000);
   };
   const handleChange = (e, name) => {
-    e.preventDefault();
     setFormData({
       ...formData,
       [name]: e.target.value,
     });
   };
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!formData.email || !formData.password) {
+      setError("Please fill up email/password.");
+      return;
+    }
+
     console.log("Submitted");
     handleLoading();
     console.log(formData);
+    setError("");
   };
   return (
     <>
@@ -45,14 +51,14 @@ const LoginForm = () => {
                 type="email"
                 placeholder="Email address"
                 onChange={(e) => handleChange(e, "email")}
-                className="w-full md:p-4 p-2 border-s-2 rounded border-s-slate-500 focus:border-s-red-600 focus:outline-none focus:ring-0"
+                className="w-full bg-red-50 md:p-4 p-2 border-s-2 rounded border-s-slate-500 focus:border-s-red-600 focus:outline-none focus:ring-0"
               />
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
                   onChange={(e) => handleChange(e, "password")}
-                  className="max-w-72 md:p-4 p-2 border-s-2 rounded border-s-slate-500 focus:border-s-red-600 focus:outline-none focus:ring-0"
+                  className="max-w-72 bg-red-50 md:p-4 p-2 border-s-2 rounded border-s-slate-500 focus:border-s-red-600 focus:outline-none focus:ring-0"
                 />
                 <div
                   className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
@@ -62,6 +68,11 @@ const LoginForm = () => {
                 </div>
               </div>
             </div>
+            {error && (
+              <div className="">
+                <span className="text-red-600 text-sm">{error}</span>
+              </div>
+            )}
             <div className="flex w-full">
               <motion.button
                 initial="initial"
