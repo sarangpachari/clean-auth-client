@@ -7,6 +7,7 @@ import { loadingContext } from "../../stores/AuthContext";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({});
   const { setLoading } = useContext(loadingContext);
   const handlePasswordToggle = () => setShowPassword(!showPassword);
@@ -14,18 +15,18 @@ const LoginForm = () => {
     setLoading(true);
     setTimeout(() => setLoading(false), 2000);
   };
-  const handleChange = (e,name)=>{
-    e.preventDefault()
+  const handleChange = (e, name) => {
+    e.preventDefault();
     setFormData({
       ...formData,
-      [name]:e.target.value
-    })
-  }
-  const handleSubmit = ()=>{
+      [name]: e.target.value,
+    });
+  };
+  const handleSubmit = () => {
     console.log("Submitted");
     handleLoading();
-    console.log(formData)
-  }
+    console.log(formData);
+  };
   return (
     <>
       <section>
@@ -43,7 +44,7 @@ const LoginForm = () => {
               <input
                 type="email"
                 placeholder="Email address"
-                onChange={(e)=>handleChange(e,"email")}
+                onChange={(e) => handleChange(e, "email")}
                 className="w-full md:p-4 p-2 border-s-2 rounded border-s-slate-500 focus:border-s-red-600 focus:outline-none focus:ring-0"
               />
               <div className="relative">
