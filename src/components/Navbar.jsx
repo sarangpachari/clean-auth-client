@@ -25,7 +25,7 @@ const Navbar = () => {
               </ul>
             </div>
             {/* RIGHT - LOGOUT */}
-            <button className="border-l-4 border-blue-400 p-2 rounded-xl shadow-sm">
+            <button className="border-l-4 border-blue-400 p-2 rounded-xl shadow-sm bg-blue-50">
               <MdLogout size={28} className="text-blue-500" />
             </button>
           </div>
