@@ -3,3 +3,18 @@
 * {
   font-family: "Raleway", sans-serif;
 }
+html{
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar{
+  width: 0.4rem;
+}
+::-webkit-scrollbar-track{
+  background-color: rgba(152, 0, 0, 0.416);
+}
+::-webkit-scrollbar-thumb{
+  background-color: rgb(169, 12, 12);
+  border-radius: 1rem;
+}
+

@@ -1,23 +1,23 @@
 import React from "react";
-import logo from "../assets/clean-auth-logo.svg";
+import logo from "../assets/clean-auth-logo.png";
 import { MdLogout } from "react-icons/md";
 
 const Navbar = () => {
   return (
     <>
-      <header>
-        <nav className="w-full h-16 bg-blue-100 shadow-lg shadow-blue-100">
-          <div className="w-full h-full flex justify-evenly items-center">
+      <header className="w-full flex justify-center fixed top-0 mt-5">
+        <nav className="sm:w-3/4 h-max bg-red-100 p-4 rounded-2xl">
+          <div className="w-full h-full flex justify-between md:gap-24 gap-4 items-center">
             {/* LEFT - LOGO */}
             <div className="">
               <img
                 src={logo}
-                className="w-12 rounded-full shadow-blue-300 shadow-sm"
+                className="w-12 rounded-full shadow-red-300 shadow-sm"
                 alt="AUTH LOGO"
               />
             </div>
             {/* CENTER - TABS */}
-            <div className="text-blue-600 font-semibold">
+            <div className="text-red-600 font-semibold">
               <ul className="flex justify-center items-center gap-4">
                 <li>Home</li>
                 <li>Features</li>
@@ -25,8 +25,8 @@ const Navbar = () => {
               </ul>
             </div>
             {/* RIGHT - LOGOUT */}
-            <button className="border-l-4 border-blue-400 p-2 rounded-xl shadow-sm bg-blue-50">
-              <MdLogout size={28} className="text-blue-500" />
+            <button className="border-l-4 border-red-400 p-2 rounded-xl shadow-sm bg-red-50">
+              <MdLogout size={28} className="text-red-500" />
             </button>
           </div>
         </nav>
