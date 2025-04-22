@@ -25,7 +25,7 @@ const Auth = () => {
         {loading ? (
           <AuthLoader/>
         ) : (
-          <div className="w-full h-lvh flex flex-col justify-center items-center gap-4">
+          <div className="w-full h-dvh flex flex-col justify-center items-center gap-4">
             <div className="w-3/4 flex flex-col gap-6">
               <div className="flex gap-4 w-full">
                 <button
