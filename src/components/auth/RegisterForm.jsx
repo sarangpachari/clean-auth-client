@@ -50,7 +50,7 @@ const RegisterForm = () => {
             </p>
           </div>
           <div className="md:w-2/3 flex flex-col gap-8">
-            <div className="flex gap-4 md:flex-row flex-col">
+            <div className="flex gap-4 xl:flex-row flex-col">
               <input
                 type="email"
                 placeholder="Email address"
@@ -62,7 +62,7 @@ const RegisterForm = () => {
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
                   onChange={(e) => handleChange(e, "password")}
-                  className="max-w-72 bg-red-50 md:p-4 p-2 border-s-2 rounded border-s-slate-500 focus:border-s-red-600 focus:outline-none focus:ring-0"
+                  className="w-full xl:w-max xl:max-w-72 bg-red-50 md:p-4 p-2 border-s-2 rounded border-s-slate-500 focus:border-s-red-600 focus:outline-none focus:ring-0"
                 />
                 <div
                   className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
@@ -76,7 +76,7 @@ const RegisterForm = () => {
                   type={showPassword ? "text" : "password"}
                   placeholder="Confirm Password"
                   onChange={(e) => handleChange(e, "confirmPassword")}
-                  className="max-w-72 bg-red-50 md:p-4 p-2 border-s-2 rounded border-s-slate-500 focus:border-s-red-600 focus:outline-none focus:ring-0"
+                  className="w-full xl:w-max xl:max-w-72 bg-red-50 md:p-4 p-2 border-s-2 rounded border-s-slate-500 focus:border-s-red-600 focus:outline-none focus:ring-0"
                 />
                 <div
                   className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
