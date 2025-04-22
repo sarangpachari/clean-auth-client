@@ -4,7 +4,7 @@ import { Triangle } from "react-loader-spinner";
 const AuthLoader = () => {
   return (
     <>
-      <div className="w-full h-lvh flex items-center justify-center">
+      <div className="w-full h-dvh flex items-center justify-center">
         <Triangle
           visible={true}
           height="80"
