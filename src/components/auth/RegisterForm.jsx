@@ -1,14 +1,23 @@
 import React, { useContext, useState } from "react";
+import { z } from "zod";
+import { useNavigate } from "react-router-dom";
 import { IoEyeOffOutline } from "react-icons/io5";
 import { IoEye } from "react-icons/io5";
 import { GoArrowRight } from "react-icons/go";
 import { motion } from "framer-motion";
 import { loadingContext } from "../../stores/AuthContext";
+import { registerUserAPI } from "../../services/auth/authAPI";
 
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const navigate = useNavigate();
   const { setLoading } = useContext(loadingContext);
   const handlePasswordToggle = () => setShowPassword(!showPassword);
   const handleLoading = () => {
@@ -21,20 +30,55 @@ const RegisterForm = () => {
       [name]: e.target.value,
     });
   };
-  const handleSubmit = (e) => {
+
+  const registerSchema = z
+    .object({
+      name: z.string().min(1, "Name is required"),
+      email: z.string().email("Invalid email"),
+      password: z.string().min(6, "Password must be at least 6 characters"),
+      confirmPassword: z.string().min(6, "Please confirm your password"),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: "Passwords do not match",
+      path: ["confirmPassword"],
+    });
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.email || !formData.password || !formData.confirmPassword) {
+    const validation = registerSchema.safeParse(formData);
+
+    if (!validation.success) {
+      setError(validation.error.errors[0].message);
+      return;
+    }
+
+    const { name, email, password } = validation.data;
+    const reqBody = { name, email, password };
+
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.password ||
+      !formData.confirmPassword
+    ) {
       setError("Please fill in all fields.");
       return;
     }
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match.");
-      return;
+
+    try {
+      const result = await registerUserAPI(reqBody);
+      if (result.status === 200) {
+        handleLoading();
+        navigate("/");
+      }
+      if (result.status === 500) {
+        alert(result.response.data.error);
+        navigate("/auth");
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setError("");
     }
-    setError("");
-    console.log("Submitted");
-    handleLoading();
-    console.log(formData);
   };
   return (
     <>
@@ -49,10 +93,18 @@ const RegisterForm = () => {
               tasks. It's quick and easy!
             </p>
           </div>
-          <div className="md:w-2/3 flex flex-col gap-8">
+          <div className="md:w-full flex flex-col gap-8">
             <div className="flex gap-4 xl:flex-row flex-col">
               <input
+                type="text"
+                required
+                placeholder="Full name"
+                onChange={(e) => handleChange(e, "name")}
+                className="w-full bg-red-50 md:p-4 p-2 border-s-2 rounded border-s-slate-500 focus:border-s-red-600 focus:outline-none focus:ring-0"
+              />
+              <input
                 type="email"
+                required
                 placeholder="Email address"
                 onChange={(e) => handleChange(e, "email")}
                 className="w-full bg-red-50 md:p-4 p-2 border-s-2 rounded border-s-slate-500 focus:border-s-red-600 focus:outline-none focus:ring-0"
@@ -60,6 +112,7 @@ const RegisterForm = () => {
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
+                  required
                   placeholder="Password"
                   onChange={(e) => handleChange(e, "password")}
                   className="w-full xl:w-max xl:max-w-72 bg-red-50 md:p-4 p-2 border-s-2 rounded border-s-slate-500 focus:border-s-red-600 focus:outline-none focus:ring-0"
@@ -74,6 +127,7 @@ const RegisterForm = () => {
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
+                  required
                   placeholder="Confirm Password"
                   onChange={(e) => handleChange(e, "confirmPassword")}
                   className="w-full xl:w-max xl:max-w-72 bg-red-50 md:p-4 p-2 border-s-2 rounded border-s-slate-500 focus:border-s-red-600 focus:outline-none focus:ring-0"
